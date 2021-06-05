@@ -47,11 +47,11 @@ jobs:
 
     # Build project
     - name: Build with Gradle
-      run: ./${{ env.SAMPLE_PATH }}/gradlew assembleDebug 
+      run: ./${{ env.SAMPLE_PATH }}/gradlew assembleDebug --stacktrace
       
     # Upload APK files
-    - name: Upload build outputs (APKs)
-      uses: actions/upload-artifact@v2
-      with:
-        name: build-outputs
-        path: ${{ env.SAMPLE_PATH }}/app/build/outputs
+    #- name: Upload build outputs (APKs)
+    #  uses: actions/upload-artifact@v2
+    #  with:
+    #    name: build-outputs
+    #    path: ${{ env.SAMPLE_PATH }}/app/build/outputs
