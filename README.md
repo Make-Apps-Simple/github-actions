@@ -1,29 +1,44 @@
 # Github Actions
+
 Github actions exploration
 
 # Git strategy
 
+```mermaid
+graph TD
+    F1(features) --> A
+    F2(devops) --> A
+    F3(bugs) --> A
+    A(develop) --> B(testing)
+    B --> C(alpha)
+    C --> D(beta)
+    D --> E(main)
+```
+
 ## Branches
-- `main` - The default branch
+
 - `devops` - For devops feature
 - `bugs` - For bug fixes
+
+- `develop` - The default branch
 - `testing` - internal testing
 - `alpha` - closed testing
 - `beta` - open testing
-- `prod` - live
+- `main` - production
 
-## Strategy
-- All development to be done based out of `feature branches`.
+## Branching Strategy
+
+- All development to be done based out of `develop` branch.
 - PR to be raised to `feature branches` on completion of development.
-- `feature branches` -> `main` - on completion of feature.
-- `main` -> `testing` - when testing is required
-- `testing` -> `alpha` - when alpha build is required
-- `alpha` -> `beta` - when alpha build is required
-- `beta` -> `prod` - when alpha build is required
+- `feature branches` -> `develop` - on completion of feature.
+- `develop` -> `testing` - when testing is required
+- `testing` -> `alpha` - when alpha deployent is required
+- `alpha` -> `beta` - when beta deployent is required
+- `beta` -> `main` - when production deployent is required
 
-# Devops 
+# Devops
 
-### Push and PR to main and devops
+### Push and PR to develop and devops
 
 - Build
 - Run tests
@@ -34,7 +49,7 @@ Github actions exploration
 - Build
 - Run tests
 - Upload **debug** APK files
-- Deploy to *Firebase app distribution* or *Internal testing track*.
+- Deploy to _Firebase app distribution_ or _Internal testing track_.
 
 ### Push and PR to alpha
 
@@ -50,7 +65,7 @@ Github actions exploration
 - Upload **signed** APK files
 - Deploy to **beta** track.
 
-### Push and PR to prod
+### Push and PR to main
 
 - Build
 - Run tests
