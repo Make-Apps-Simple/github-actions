@@ -48,7 +48,7 @@ jobs:
     # Build project
     - name: Build with Gradle
       working-directory: ${{ env.SAMPLE_PATH }}
-      run: ./gradlew assembleDebug --stacktrace
+      run: ./gradlew assembleDeb --stacktrace
       
     # Upload APK files
     - name: Upload build outputs (APKs)
