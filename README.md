@@ -4,6 +4,8 @@ Github actions exploration
 
 # Git strategy
 
+Install [this chrome extension](https://chrome.google.com/webstore/detail/github-%20-mermaid/goiiopgdnkogdbjmncgedmgpoajilohe?hl=en) to see the below graph in Google Chrome Browser.
+
 ```mermaid
 graph TD
     F1(features) --> A
