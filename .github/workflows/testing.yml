@@ -7,9 +7,6 @@ on:
   push:
     branches: 
       - testing
-  pull_request:
-    branches: 
-      - testing
 
 env:
   SAMPLE_PATH: codebase/android
@@ -56,7 +53,7 @@ jobs:
         path: ${{ env.SAMPLE_PATH }}/app/build/outputs
 
   # This job uploads the apk/bundle to internal app sharing
-  upload_to_internal_app_sharing:
+  upload-to-internal-app-sharing:
 
     # Name of the job
     name: Uploading build to IAS

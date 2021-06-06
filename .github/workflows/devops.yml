@@ -7,9 +7,6 @@ on:
   push:
     branches: 
       - devops
-  pull_request:
-    branches: 
-      - devops
 
 env:
   SAMPLE_PATH: codebase/android
