@@ -1,17 +1,16 @@
 # Workflow name show in github
-name: Android Build
+name: Pull Requests
 
 # Controls when the action will run. 
 # Triggers the workflow on push or pull request events but only for the main branch
 on:
-  push:
-    branches: 
-      - main
-      - devops
   pull_request:
     branches: 
+      - develop
+      - testing
+      - alpha
+      - beta
       - main
-      - devops
 
 env:
   SAMPLE_PATH: codebase/android
@@ -49,10 +48,3 @@ jobs:
     - name: Build with Gradle
       working-directory: ${{ env.SAMPLE_PATH }}
       run: ./gradlew assembleDebug --stacktrace
-      
-    # Upload APK files
-    - name: Upload build outputs (APKs)
-      uses: actions/upload-artifact@v2
-      with:
-        name: build-outputs
-        path: ${{ env.SAMPLE_PATH }}/app/build/outputs
