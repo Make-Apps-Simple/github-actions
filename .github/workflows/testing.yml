@@ -1,11 +1,11 @@
 # Workflow name show in github
 name: Testing
 
-# Controls when the action will run. 
+# Controls when the action will run.
 # Triggers the workflow on push or pull request events but only for the main branch
 on:
   push:
-    branches: 
+    branches:
       - testing
 
 env:
@@ -13,62 +13,48 @@ env:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-
   # This job builds the project
   build:
-
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    
+
     # Timeout for the job
     timeout-minutes: 30
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      # To checkout repository
+      - uses: actions/checkout@v2
 
-    # To checkout repository
-    - uses: actions/checkout@v2
+      # Java setup
+      - name: set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: "11"
+          distribution: "adopt"
 
-    # Java setup
-    - name: set up JDK 11
-      uses: actions/setup-java@v2
-      with:
-        java-version: '11'
-        distribution: 'adopt'
+      # File permission changes for gradle scripts
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./${{ env.SAMPLE_PATH }}/gradlew
 
-    # File permission changes for gradle scripts
-    - name: Grant execute permission for gradlew
-      run: chmod +x ./${{ env.SAMPLE_PATH }}/gradlew
+      # Build project
+      - name: Build with Gradle
+        working-directory: ${{ env.SAMPLE_PATH }}
+        run: ./gradlew assembleDebug --stacktrace
 
-    # Build project
-    - name: Build with Gradle
-      working-directory: ${{ env.SAMPLE_PATH }}
-      run: ./gradlew assembleDebug --stacktrace
-      
-    # Upload APK files
-    - name: Upload build outputs (APKs)
-      uses: actions/upload-artifact@v2
-      with:
-        name: build-outputs
-        path: ${{ env.SAMPLE_PATH }}/app/build/outputs
-
-  # This job uploads the apk/bundle to internal app sharing
-  upload-to-internal-app-sharing:
-
-    # Name of the job
-    name: Uploading build to IAS
-    
-    # This is to define that this job is to be run after the specifed jobs complete
-    needs: build
-    
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-
-      # Download the artifacts
-      - name: Downloading build
-        uses: actions/download-artifact@v2
+      # Upload APK files
+      - name: Upload build outputs (APKs)
+        uses: actions/upload-artifact@v2
         with:
           name: build-outputs
+          path: ${{ env.SAMPLE_PATH }}/app/build/outputs
+
+      # Upload apk file to firebase app distribution
+      - name: upload artifact to firebase app distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.FIREBASE_APP_ID}}
+          token: ${{secrets.FIREBASE_TOKEN}}
+          groups: default
+          file: app/build/outputs/apk/debug/app-debug.apk
+          debug: true
