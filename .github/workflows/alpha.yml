@@ -7,9 +7,6 @@ on:
   push:
     branches: 
       - alpha
-  pull_request:
-    branches: 
-      - alpha
 
 env:
   SAMPLE_PATH: codebase/android
