@@ -49,6 +49,17 @@ jobs:
           name: build-outputs
           path: ${{ env.SAMPLE_PATH }}/app/build/outputs
 
+      # Upload apk file to Google internal app sharing
+      - name: Uplaoding to internal app sharing
+        id: internal-app-sharing
+        uses: sagar-viradiya/internal-app-sharing-action@v1.1.0
+        with:
+          # Your service account JSON GitHub secret
+          serviceAccountJsonPlainText: ${{ secrets.MAKE_APPS_SIMPLE_SERVICE_ACCOUNT }}
+          # Your package name 
+          packageName: com.makeappssimple.abhimanyu.githubactions.android
+          apkFilePath: app/build/outputs/apk/debug/app-debug.apk
+
       # Upload apk file to firebase app distribution
       #- name: upload artifact to firebase app distribution
       #  uses: wzieba/Firebase-Distribution-Github-Action@v1
