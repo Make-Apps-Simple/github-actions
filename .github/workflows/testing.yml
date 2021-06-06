@@ -1,5 +1,5 @@
 # Workflow name show in github
-name: Android Build
+name: Testing
 
 # Controls when the action will run. 
 # Triggers the workflow on push or pull request events but only for the main branch
@@ -54,3 +54,24 @@ jobs:
       with:
         name: build-outputs
         path: ${{ env.SAMPLE_PATH }}/app/build/outputs
+
+  # This job uploads the apk/bundle to internal app sharing
+  upload_to_internal_app_sharing:
+
+    # Name of the job
+    name: Uploading build to IAS
+    
+    # This is to define that this job is to be run after the specifed jobs complete
+    needs: build
+    
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+      # Download the artifacts
+      - name: Downloading build
+        uses: actions/download-artifact@v2
+        with:
+          name: build-outputs
